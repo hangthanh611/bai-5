@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ảnh Preview</title>
+<style>
+  #preview {
+    width: 400px;
+    height: 300px;
+    border: 2px solid #444;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+    transition: background-image 0.3s ease;
+  }
+  .thumbnail {
+    width: 120px;
+    height: 90px;
+    margin-right: 10px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    object-fit: cover;
+    vertical-align: middle;
+    transition: transform 0.2s ease;
+  }
+  .thumbnail:hover {
+    transform: scale(1.1);
+    border-color: #666;
+  }
+</style>
+</head>
+<body>
+
+<div id="preview">Di chuột qua một hình ảnh bên dưới để hiển thị ở đây.</div>
+
+<!-- Các ảnh thumbnail -->
+<img src="https://picsum.photos/id/1015/400/300" alt="Ảnh thiên nhiên 1" class="thumbnail" />
+<img src="https://picsum.photos/id/1016/400/300" alt="Ảnh thiên nhiên 2" class="thumbnail" />
+<img src="https://picsum.photos/id/1018/400/300" alt="Ảnh thiên nhiên 3" class="thumbnail" />
+
+<script>
+  const previewDiv = document.getElementById('preview');
+  const originalText = previewDiv.textContent;
+  const originalBackground = previewDiv.style.backgroundImage;
+
+  function update(event) {
+    const previewPic = event.target;
+    if (previewPic.tagName.toLowerCase() !== 'img') return;
+
+    console.log('Alt:', previewPic.alt);
+    console.log('Src:', previewPic.src);
+
+    previewDiv.textContent = previewPic.alt;
+    previewDiv.style.backgroundImage = `url(${previewPic.src})`;
+  }
+
+  function reset() {
+    previewDiv.textContent = originalText;
+    previewDiv.style.backgroundImage = originalBackground || 'none';
+  }
+
+  const thumbnails = document.querySelectorAll('.thumbnail');
+  thumbnails.forEach(img => {
+    img.addEventListener('mouseover', update);
+    img.addEventListener('mouseout', reset);
+  });
+</script>
+
+</body>
+</html>
